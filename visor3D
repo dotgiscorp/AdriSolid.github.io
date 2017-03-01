@@ -75,10 +75,7 @@
 
 
 
-    body {
-  background: #333;
-  background-image: url('http://assets.codepen.io/images/classy_fabric.png');
-}
+
 
 
 
@@ -376,38 +373,12 @@
 
 
 
-  <div id="mikel"></div>
-  <div id="miki"></div>
-<section id="snow"></section>
 
-<a href="javascript:toggleDiv('myContent');"><img id="phone" src="phone.svg" alt="phone"></a>
 
-<div id="myContent">
 
-  ¿Necesitas ayuda?
 
-<p>Clica el botón para obtener tus coordenadas y llama al servicio que necesites</p>
 
-<button onclick="getLocation()">Mi ubicación</button>
 
-<p id="demo"></p>
-
-<script>
-var x = document.getElementById("demo");
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-function showPosition(position) {
-    x.innerHTML = "Latitud " + position.coords.latitude +
-    "<br>Longitud: " + position.coords.longitude;
-}
-</script>
 
 </div>
 

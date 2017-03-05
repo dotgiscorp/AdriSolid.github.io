@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ConsultaVisualizacionEjercicio</title>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/css/esri.css">
+	<script src="https://js.arcgis.com/3.19/"></script>
+
+	<style>
+	html, body, #mapDiv {
+		padding: 0;
+		margin: 0;
+		height: 100%;}
+
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+    #ejecutaQuery{
+      top: 14px;
+      right: 42px;
+      position: absolute;
+      z-index: 101;
+
+    }
+    #numWhere{
+      top: 120px;
+      right: 68px;
+      position: absolute;
+      z-index: 101;
+    }
+
+    tr:nth-child(even){background-color: #b8b894}
+
+    #cajita{
+      width: 200px;
+      height: 80px;
+      top: 70px;
+      right: 50px;
+      z-index: 100;
+      position: absolute;
+      border-style: inset;
+      background-color: lightblue;
+
+
+    }
+
+	</style>
+
+	<script>
+	var map;
+	var urlDynamic = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer";
+	var urlCities = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0";
+	require(["esri/map",
+		"esri/geometry/Circle",
+		"esri/layers/ArcGISDynamicMapServiceLayer",
+		"esri/tasks/query",
+		"esri/tasks/QueryTask",
+		"esri/geometry/Polygon",
+		"esri/symbols/SimpleMarkerSymbol",
+		"esri/symbols/SimpleFillSymbol",
+		"esri/graphic",
+		"esri/layers/GraphicsLayer",
+		"esri/Color",
+    "esri/renderers/SimpleRenderer",
+		"dojo/domReady!"],
+	function(Map, Circle, ArcGISDynamicMapServiceLayer, Query, QueryTask, Polygon, SimpleMarkerSymbol, SimpleFillSymbol, Graphic, GraphicsLayer, Color, SimpleRenderer) {
+
+		    map = new Map("mapDiv", {
+		    	center: [-96.049, 49.485],
+		    	zoom: 3,
+		    	basemap: "dark-gray"
+		  	});
+		    dynamLayer = new ArcGISDynamicMapServiceLayer(urlDynamic,{id:"usa",opacity:0.5});
+        	map.addLayer(dynamLayer);
+        	var graphicLayer = new GraphicsLayer();
+        	map.addLayer(graphicLayer);
+
+        	var myQuery = new Query();
+
+          var inputWhere = document.getElementById("numWhere");
+          myQuery.where = "pop2000 > " + inputWhere.value;
+
+          inputWhere.onChange = function(){
+            myQuery.where = "pop2000 > " + inputWhere.value;
+          };
+
+
+
+
+        	myQuery.where = "pop2000 > 500000";
+
+
+		myQuery.outFields = ["objectid", "areaname", "pop2000"];
+
+		myQuery.returnGeometry = true;
+		myQuery.outSpatialReference = map.spatialReference;
+
+		var myQueryTask = new QueryTask(urlCities);
+    var btn_ejecutar = document.getElementById("ejecutaQuery");
+    btn_ejecutar.onclick = function (){
+      var inputWhere = document.getElementById("numWhere");
+      myQuery.where = "pop2000 > " + inputWhere.value;
+      myQuery.geometry = null;
+      myQuery.spatialRelationship = null;
+      myQueryTask.execute(myQuery, show);
+      };
+
+    var symbol = new SimpleMarkerSymbol();
+    symbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
+    symbol.setSize(10);
+    symbol.setColor(new Color([255,0,0,0.5]));
+
+
+
+    map.on("load",function(){
+      //espero a que cargue el mapa y aplico el renderer. el renderer solo se aplica una vez, no siempre!!!
+      var renderer = new SimpleRenderer(symbol);
+      map.graphics.setRenderer(renderer);
+    });
+
+		map.on("click",function(evt){
+
+            		var circle = new Circle({
+            			center: evt.mapPoint,
+            			radius: 600000
+            		});
+
+            		myQuery.geometry = circle;
+
+            		myQuery.spatialRelationship = Query.SPATIAL_REL_INTERSECTS;
+            		var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([50,0,255,0.2]));
+            		var gr = new Graphic(circle, symbol);
+            		graphicLayer.clear();
+            		graphicLayer.add(gr);
+
+                var inputWhere = document.getElementById("numWhere");
+                myQuery.where = "pop2000 > " + inputWhere.value;
+
+
+
+            		myQueryTask.execute(myQuery,show);
+		});
+		function show(fsResult){
+			var features = fsResult.features;
+
+			map.graphics.clear();
+      borrarTabla();
+			if(features.length!=0){
+
+				for (var i = 0; i<features.length; i++){
+
+          poblarTabla(features[i]);
+
+					map.graphics.add(features[i]);
+
+				}
+			} else {
+				alert("ninguna entidad que cumpla las condiciones")
+			}
+
+
+
+
+
+
+    };
+
+
+
+    function borrarTabla(){
+      var tabla = document.getElementById("tbody");
+      if (tabla.firstChild){
+        while(tabla.firstChild){
+          tabla.removeChild(tabla.firstChild);
+        };
+      }
+   };
+
+    function poblarTabla(feature){
+      var tabla = document.getElementById("tbody");
+      var atributos = feature.attributes;
+      var oid = atributos.objectid;
+      var nombre = atributos.areaname;
+      var poblacion = atributos.pop2000;
+      var fila = document.createElement("tr");
+      var filaData = [oid, nombre, poblacion];
+      for (i in filaData){
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(filaData[i]);
+        celda.appendChild(textoCelda);
+        fila.appendChild(celda);
+      }
+      tbody.appendChild(fila);
+    }
+
+
+
+
+
+
+
+	});
+
+	</script>
+	</head>
+	<body class="claro">
+    <input type="number" id="numWhere">
+    <div id="cajita">
+    <button type="button" id="ejecutaQuery" class="btn btn-succes">Ejecuta consulta</button>
+    </div>
+
+
+  		<div id="mapDiv"></div>
+      <div>
+        <table id="tabla">
+
+         <thead>
+          <tr>
+             <th>Objectid</th>
+             <th>AreaName</th>
+             <th>Pop2000</th>
+          </tr>
+         </thead>
+
+         <tbody id="tbody">
+
+         </tbody>
+        </table>
+      </div>
+
+  	</body>
+</html>

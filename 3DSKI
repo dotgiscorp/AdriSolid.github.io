@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="description" content="[Work with slides in a WebScene - 4.2]">
+
+  <title>Visor 3D Estación de Ski</title>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    #createSlideDiv {
+      background-color: white;
+      opacity: 0.9;
+      color: black;
+      padding: 6px;
+    }
+
+    #slidesDiv {
+      background-color: white;
+      opacity: 0.9;
+      color: black;
+      padding: 10px;
+      visibility: hidden;
+      bottom: 20px;
+      overflow-y: auto;
+      text-align: center;
+      height: 280px;
+    }
+
+    #slidesDiv .slide {
+      cursor: pointer;
+      margin-bottom: 6px;
+    }
+
+    #slidesDiv .slide .title {
+      text-align: center;
+    }
+
+
+    #slidesDiv .slide.active img {
+      box-shadow: 0px 0px 12px black;
+      border-style: solid;
+      border-width: thin;
+      border-color: black;
+    }
+    #mikel {
+      max-width: 140px;
+      min-width: 140px;
+      opacity: 0.8;
+    }
+    #miki {
+      left: 600px;
+      top: 550px;
+      border-radius: 50%;
+
+
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.2/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.2/"></script>
+
+  <script>
+    require([
+
+      "esri/views/SceneView",
+      "esri/widgets/Legend",
+      "esri/WebScene",
+      "esri/webscene/Slide",
+      "dojo/dom-construct",
+      "dojo/dom-class",
+      "dojo/dom",
+      "dojo/on",
+      "dojo/query",
+      "esri/widgets/Track",
+      "dojo/domReady!"
+    ], function(
+      SceneView, Legend, WebScene, Slide, domConstruct, domClass, dom, on, query, Track
+    ) {
+
+
+      var scene = new WebScene({
+        portalItem: { // autocasts as new PortalItem()
+          id: "a188eaec513348af913aa5d7e55c2df6"
+        }
+      });
+
+
+      var view = new SceneView({
+        map: scene,
+        container: "viewDiv"
+      });
+
+      view.ui.add(["createSlideDiv", "slidesDiv"], "top-right");
+
+
+      function createSlideUI(slide, placement) {
+
+        var slideElement = domConstruct.create("div", {
+
+          id: slide.id,
+          className: "slide"
+        });
+
+
+        var position = placement ? placement : "last";
+        domConstruct.place(slideElement, "slidesDiv", position);
+
+
+        domConstruct.create("div", {
+
+          textContent: slide.title.text,
+          className: "title"
+        }, slideElement);
+
+
+        domConstruct.create("img", {
+
+          src: slide.thumbnail.url,
+
+
+          title: slide.title.text
+        }, slideElement);
+
+
+        on(slideElement, "click", function() {
+
+          query(".slide").removeClass("active");
+
+
+          domClass.add(slideElement, "active");
+
+
+          slide.applyTo(view);
+        });
+      }
+
+      view.then(function() {
+
+        dom.byId("slidesDiv").style.visibility = "visible";
+
+
+        var slides = scene.presentation.slides;
+
+
+        slides.forEach(createSlideUI);
+
+
+        on(dom.byId("createSlideButton"), "click", function() {
+
+          Slide.createFrom(view).then(function(slide) {
+
+            slide.title.text = dom.byId("createSlideTitleInput")
+              .value;
+
+
+            scene.presentation.slides.add(slide);
+
+
+            createSlideUI(slide, "first");
+          });
+        });
+
+
+        var featureLayer = scene.layers.getItemAt(0);
+
+        var legend = new Legend({
+          view: view,
+          container: "mikel",
+          layerInfos: [{
+
+            layer: featureLayer
+
+          }]
+        });
+
+        view.ui.add(legend, "bottom-left");
+        });
+
+      // Localización
+
+      var track = new Track({
+      view: view,
+      container: "miki"
+
+      });
+      view.ui.add(track);
+      track.start();
+
+    });
+
+  </script>
+
+</head>
+
+<body>
+
+  <div id="viewDiv"></div>
+  <div id="createSlideDiv">
+    Nueva captura: <input type="text" id="createSlideTitleInput" size="10"/>
+    <button
+      id="createSlideButton">Crear</button>
+  </div>
+  <div id="slidesDiv"></div>
+  <div style="position: absolute; right: 2px; top: 457px; z-index: 2;">
+    <script type="text/javascript" src="http://www.aemet.es/es/eltiempo/prediccion/municipios/launchwidget/jaca-id22130?w=g4p01110001ohmffffffw280z135x4f86d9t95b6e9r1s0n1"></script>
+  </div>
+  <div style="position: absolute; right: 60px; top: 448px; z-index: 3; weight: 10px; height: 10px;">
+    <p style=" background-color: #4f86d9; font-size: 15px;">San Martino di Castrozza</p>
+  </div>
+  <div id="mikel"></div>
+  <div id="miki"></div>
+  
+
+</body>
+
+</html>

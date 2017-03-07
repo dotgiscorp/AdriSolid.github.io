@@ -7,39 +7,37 @@
   <meta name="description" content="[Work with slides in a WebScene - 4.2]">
 
   <title>Visor 3D San Martino SKI Mobile</title>
-<style>
- /* CSS general */
-.mi-iframe {
-  width: 100%;
-  height: 100%;
-}
+    <style>
+      .intrinsic-container {
+        position: relative;
+        height: 0;
+        overflow: hidden;
+      }
 
-/* CSS pantallas de 320px o superior */
-@media (min-width: 320px) {
+      /* 16x9 Aspect Ratio */
+      .intrinsic-container-16x9 {
+        padding-bottom: 56.25%;
+      }
 
-  .mi-iframe {
-    width: 100%;
-    height: 100%;
-  } 
+      /* 4x3 Aspect Ratio */
+      .intrinsic-container-4x3 {
+        padding-bottom: 75%;
+      }
 
-}
-
-/* CSS pantalla 768px o superior */
-@media (min-width: 768px) {
-
-  .mi-iframe {
-    width: 100%;
-    height: 100%;
-  } 
-
-}
- </style>
+      .intrinsic-container iframe {
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+     </style>
 </head>
 
 <body>
 
-  <div class="mi-iframe">
-  <iframe width="100%" height="100%"src="https://adrisolid.github.io/visor3Dmobile.html" frameborder="0" allowfullscreen></iframe>
+  <div class="intrinsic-container">
+  <iframe src="https://adrisolid.github.io/visor3Dmobile.html" allowfullscreen></iframe>
   </div>
 
 

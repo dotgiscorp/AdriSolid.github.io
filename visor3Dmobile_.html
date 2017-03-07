@@ -8,28 +8,26 @@
 
   <title>Visor 3D San Martino SKI Mobile</title>
 <style>
-  html {
+ .embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+.embed-container iframe {
+    position: absolute;
+    top:0;
+    left: 0;
     width: 100%;
-    heigth: 100%;
- }
- body {
-    width: 100%;
-    heigth: 100%;
- }
- #frame{
-   position:absolute;
-    height:100%;
-    width:100%;
-    top:0px;
-    left:0px;
- }
+    height: 100%;
+}
  </style>
 </head>
 
 <body>
 
-  <div id="frame">
-  <iframe src="https://adrisolid.github.io/visor3Dmobile.html"></iframe>
+  <div class="embed-container">
+  <iframe width="560" height="315"src="https://adrisolid.github.io/visor3Dmobile.html" frameborder="0" allowfullscreen></iframe>
   </div>
 
 

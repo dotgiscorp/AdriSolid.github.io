@@ -410,31 +410,45 @@
 <a href="javascript:toggleDiv('myContent');"><img id="phone" src="phone.svg" alt="phone"></a>
 
 
-<div id="myContent">
-  ¿Necesitas ayuda?
+				<div id="element" style="display: none;">
+   <div id="close"><a href="#" id="hide">Cerrar</a></div>
+
+           <div id="myContent">
 
 
-<p>Clica el botón para obtener tus coordenadas y llama al servicio que necesites</p>
 
-<button onclick="getLocation()">Mi ubicación</button>
 
-<script>
-var x = document.getElementById("demo");
-function getLocation() {
-   if (navigator.geolocation) {
-       navigator.geolocation.getCurrentPosition(showPosition);
-   } else {
-       x.innerHTML = "Geolocation is not supported by this browser.";
-   }
-}
-function showPosition(position) {
-   x.innerHTML = "Latitud: " + position.coords.latitude +
-   "<br>Longitud: " + position.coords.longitude;
-}
-</script>
+
+                 <p>¿Necesitas ayuda? Clica el botón inferior para obtener tus coordenadas; llama al servicio de emergencias</p>
+
+                 <button onclick="getLocation()">Tu posición</button>
+
+                 <p id="demo"></p>
+
+                 <script>
+                 var x = document.getElementById("demo");
+
+                 function getLocation() {
+                     if (navigator.geolocation) {
+                         navigator.geolocation.getCurrentPosition(showPosition);
+                     } else {
+                         x.innerHTML = "Geolocation is not supported by this browser.";
+                     }
+                 }
+
+                 function showPosition(position) {
+                     x.innerHTML = "Latitude: " + position.coords.latitude +
+                     "<br>Longitude: " + position.coords.longitude;
+                 }
+                 </script>
+
+                 <a href="tel:+34638581914">+34 638 58 19 14</a>
+
+   </div>
 
 
 </div>
+
 <div id="miki"></div>
 </body>
 

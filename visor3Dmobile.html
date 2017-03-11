@@ -55,7 +55,7 @@
       border-width: thin;
       border-color: black;
     }
- 
+
 
 
 
@@ -163,6 +163,14 @@
 #geo {
  z-index: 999;
 }
+#close{
+  top: 380px;
+  left: 570px;
+  height: 40px;
+  width: 15px;
+  position: absolute;
+  z-index: 999;
+}
 
 #miki {
       left: 600px;
@@ -190,7 +198,7 @@
     require([
 
       "esri/views/SceneView",
-      
+
       "esri/WebScene",
       "esri/webscene/Slide",
       "dojo/_base/fx",
@@ -352,7 +360,6 @@
 
 
 
-
       });
 
       // Localización
@@ -383,11 +390,29 @@
   }
 
   </script>
+
+
+
+
+  <script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#hide").click(function(){
+    $("#element").hide();
+  });
+  $("#show").click(function(){
+    $("#element").show();
+  });
+});
+</script>
+
+
+
 </head>
 
 <body>
 
- 
+
   <div id="viewDiv"></div>
 
 
@@ -405,12 +430,19 @@
 
 
 
+
+
 <section id="snow"></section>
 
-<a href="javascript:toggleDiv('myContent');"><img id="phone" src="phone.svg" alt="phone"></a>
 
 
-				<div id="element" style="display: none;">
+
+
+
+
+
+
+<div id="element" style="display: none;">
    <div id="close"><a href="#" id="hide">Cerrar</a></div>
 
            <div id="myContent">
@@ -449,7 +481,15 @@
 
 </div>
 
+<a href="#" id="show">
+<img id="phone" src="phone.svg" alt="phone">
+</a>
+
+  <a href="javascript:toggleDiv('myContent');">   </a>
+
+
 <div id="miki"></div>
 </body>
 
 </html>
+

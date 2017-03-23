@@ -6,27 +6,23 @@
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta name="description" content="[Work with slides in a WebScene - 4.2]">
 
-  <title>Work with slides in a WebScene - 4.2</title>
+  <title>San Martino 3D</title>
 
   <style>
-	  
     html,
     body,
-	  
     #viewDiv {
       padding: 0;
       margin: 0;
       height: 100%;
       width: 100%;
     }
-
     #createSlideDiv {
       background-color: white;
       opacity: 0;
       color: black;
       padding: 6px;
     }
-
     #slidesDiv {
       background-color: white;
       opacity: 0.9;
@@ -42,91 +38,76 @@
       top: 2.5%;
       left: 15%;
     }
-
     #slidesDiv .slide {
       /* Mostrar cursor como puntero cuando está en una diapositiva/bookmark */
       cursor: pointer;
       margin-bottom: 6px;
     }
-
     #slidesDiv .slide .title {
       /* Centramos el título del texto */
       text-align: center;
     }
-      /* Dibujamos diapositiva activa con un borde agradable alrededor de la miniatura */
+    /* Dibujamos diapositiva activa con un borde agradable alrededor de la miniatura */
     #slidesDiv .slide.active img {
       box-shadow: 0px 0px 12px black;
       border-style: solid;
       border-width: thin;
       border-color: black;
     }
-     /* Animación con ilusión de nieve precipitando continuamente */
     body {
-      background: #333;
-      background-image: url('http://assets.codepen.io/images/classy_fabric.png');
-    }
-
-    #snow {
-      background-color: transparent;
-      background-image: url(http://wp.agens.no/smakebit/wp-content/themes/smakebiten/img/snow1.png), url(http://wp.agens.no/smakebit/wp-content/themes/smakebiten/img/snow2.png);
-      -webkit-animation: snow 20s linear infinite;
-      -moz-animation: snow 20s linear infinite;
-      -ms-animation: snow 20s linear infinite;
-      animation: snow 20s linear infinite;
+  background: #333;
+  background-image: url('http://assets.codepen.io/images/classy_fabric.png');
+}
+#snow {
+    background-color: transparent;
+    background-image: url(http://wp.agens.no/smakebit/wp-content/themes/smakebiten/img/snow1.png), url(http://wp.agens.no/smakebit/wp-content/themes/smakebiten/img/snow2.png);
+    -webkit-animation: snow 20s linear infinite;
+    -moz-animation: snow 20s linear infinite;
+    -ms-animation: snow 20s linear infinite;
+    animation: snow 20s linear infinite;
 	z-index: 999;
 	right: 0;
-	top: 0;
-	left: 0;
-	bottom: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
 	margin-top: 0;
 	pointer-events: none;
 	position: absolute;
-
-     }
-	  
-   /*Keyframes*/
-
-    @keyframes snow {
-     0% { background-position: 0px 0px, 0px 0px, 0px 0px }
-
-     100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
-     }
-
-    @-moz-keyframes snow {
-     0% { background-position: 0px 0px, 0px 0px, 0px 0px }
-
-     100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
-     }
-
-   @-webkit-keyframes snow {
+}
+/*Keyframes*/
+@keyframes snow {
     0% { background-position: 0px 0px, 0px 0px, 0px 0px }
-
+    100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
+}
+@-moz-keyframes snow {
+    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
+    100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
+}
+@-webkit-keyframes snow {
+    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
     100% {
         background-position: 500px 1000px, 400px 400px, 300px 300px;
-     }
     }
-
-   @-ms-keyframes snow {
+}
+@-ms-keyframes snow {
     0% { background-position: 0px 0px, 0px 0px, 0px 0px }
-
     100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
-    }
+}
 
-   #locate {
+#locate {
       left: 2.2%;
       top: 80%;
       border-radius: 50%;
       background-color: rgb(117, 223, 65);
       color: black;
       opacity: 0.8;
-      z-index: 99;
-      position: absolute;
-      width: 32.5px;
+    	z-index: 99;
+    	position: absolute;
+	    width: 32.5px;
       height: 32.5px;
-     }
-
-
+}
   </style>
+
   <link rel="stylesheet" href="https://js.arcgis.com/4.2/esri/css/main.css">
   <script src="https://js.arcgis.com/4.2/"></script>
 
@@ -144,161 +125,140 @@
       "esri/widgets/Track",
       "dojo/domReady!"
     ], function(
-      SceneView, 
-       WebScene, 
-       Slide, 
-       baseFx, 
-       domConstruct, 
-       domClass, 
-       dom, 
-       on, 
-       query, 
-       Track
+      SceneView, WebScene, Slide, baseFx, domConstruct, domClass, dom, on, query, Track
     ) {
 
-      // Creamos un nuevo WebScene referenciando un WebScene ID desde Arcgis Onlin
-      
-       var scene = new WebScene({
-        portalItem: { 
+     // Creamos un nuevo WebScene referenciando un WebScene ID desde Arcgis Onlin
+
+
+      var scene = new WebScene({
+        portalItem: {
           id: "a188eaec513348af913aa5d7e55c2df6"
         }
       });
 
-      
      // Referenciamos el WebScene en una instancia SceneView
-       
-       
+
+
       var view = new SceneView({
         map: scene,
         container: "viewDiv"
       });
-
       view.ui.add(["createSlideDiv", "slidesDiv"], "top-right");
 
-      
      // Función para crear el UI para la interfaz de usuario de una diapositiva creando nodos DOM;
      // los agregramos al contenedor 'slidesDiv'
-      
-      
+
+
       function createSlideUI(slide, placement) {
-        
+
 	// Creamos un nuevo elemento <div> que contiene toda la información de las diapositivas/bookmarks
 	// Almacenamos una referencia al nodo DOM creado para poder usarlo para colocar otros nodos DOM y conectar eventos
-	
-	 
+
+
         var slideElement = domConstruct.create("div", {
           // Asignamos el ID de la diapositiva/bookmark al elemento <span>
-		
+
           id: slide.id,
           className: "slide"
         });
 
-      
 	 // Colocamos el nodo DOM recién creado al principio del 'slidesDiv'
-        
+
         var position = placement ? placement : "last";
         domConstruct.place(slideElement, "slidesDiv", position);
 
-       
 	 // Creamos el elemento <div> que contiene el 'slide title text'
-        
+
         domConstruct.create("div", {
-	  // Posicionamos el título del slide en el elemento <div>	
-          
+	  // Posicionamos el título del slide en el elemento <div>
+
           textContent: slide.title.text,
           className: "title"
         }, slideElement);
 
-        
 	// Creamos un nuevo elemento <img> y lo posicionamos dentro del nuevo elemento slide creado.
-        
+
         domConstruct.create("img", {
 	  // Establecemos la URL src de la imagen a la URL de miniatura de la diapositiva/bookmark
-	
+
           src: slide.thumbnail.url,
 
-          
 	  // Establecemos la propiedad de título de la imagen en el título de la diapositiva
           title: slide.title.text
         }, slideElement); // Posicionamos la imagen dentro del nuevo elemento <div>
 
-       
 	// Configuramos un controlador de eventos de clic en la diapositiva recién creada. Cuando se haga clic,
 	// se ejecutará el código definido a continuación
-	
+
         on(slideElement, "click", function() {
-        
+
           query(".slide").removeClass("active");
 
-    
 	   // Añadimos la clase "active" al elemento actual que ha sido seleccionado
-           
+
           domClass.add(slideElement, "active");
 
-          
 	  // Aplicamos la configuración de una diapositiva/bookmark al SceneView
 	  // Cada una de ellas tiene una propiedad 'viewpoint' y 'visibleLayers' que definen
 	  // el punto de vista o cámara para la diapositiva/bookmark y las capas que deben
 	  // ser visibles para el usuario cuando se selecciona ésta.
-	  
+
           slide.applyTo(view);
         });
       }
-
       view.then(function() {
-        
+
 	// Después de que la vista esté cargada se ejecutará esta función
-         
+
         dom.byId("slidesDiv").style.visibility = "visible";
 
-      
 	 // Las diapositivas son una colección dentro de la propiedad de presentación del WebScene
-	
+
         var slides = scene.presentation.slides;
 
-        
-	 // Se genera un bucle para cada diapositiva/bookmark de la colección y éstas se renderizan 
-	
-        slides.forEach(createSlideUI);
+	 // Se genera un bucle para cada diapositiva/bookmark de la colección y éstas se renderizan
 
+        slides.forEach(createSlideUI);
        // En el caso de querer generar nuevas diapositivas/bookmarks ejecutar el siguiente código comentado
        // Las nuevas diapositivas generadas quedarán almacenadas en el DOM
-	      
+
        // on(dom.byId("createSlideButton"), "click", function() {
-          
+
        //   Slide.createFrom(view).then(function(slide) {
-           
+
        //     slide.title.text = dom.byId("createSlideTitleInput")
        //       .value;
-
 	//	  scene.presentation.slides.add(slide);
-
        //   createSlideUI(slide, "first");
-		  
-          });
-        });
 
-   });
-
+       //   });
+       // });
+      });
       // Añadimos el widget 'Locate'
-
       var track = new Track({
-	      view: view,
-              container: "locate"
-         );
-	      
+      view: view,
+      container: "locate"
+      });
       view.ui.add(track);
-	      
       track.start();
-
-       });
+    });
   </script>
+
+
+});
+</script>
+
+
 
 </head>
 
 <body>
-  
+
+
   <div id="viewDiv"></div>
+
+
 
   <div id="createSlideDiv">
     Nueva captura: <input type="text" id="createSlideTitleInput" size="2"/>
@@ -307,9 +267,10 @@
   </div>
   <div id="slidesDiv"></div>
 
-  <section id="snow"></section>
 
-  <div id="locate"></div>
+<section id="snow"></section>
+
+<div id="locate"></div>
 </body>
 
 </html>

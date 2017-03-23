@@ -134,15 +134,7 @@
 
 
  }
- #phone{
-   width: 32.5px;
-   height: 32.5px;
-   background-color: none;
-   z-index: 99;
-   top: 39.3%;
-   left: 1.2%;
-   position: absolute;
- }
+ 
  #myContent{
  background-color: white;
  top: 30%;
@@ -177,8 +169,8 @@
 }
 
 #miki {
-      left: 1.2%;
-      top: 33%;
+      left: 2.5%;
+      top: 50%;
       border-radius: 50%;
       background-color: #00cc00;
       color: black;
@@ -451,41 +443,7 @@ $(document).ready(function(){
 
 
 
-<div id="element" style="display: none;">
 
-
-           <div id="myContent">
-
-
-
-
-
-                 <p>¿Necesitas ayuda? Clica el botón inferior para obtener tus coordenadas; llama al servicio de emergencias</p>
-
-                 <button onclick="getLocation()">Tu posición</button>
-
-                 <p id="demo"></p>
-
-                 <script>
-                 var x = document.getElementById("demo");
-
-                 function getLocation() {
-                     if (navigator.geolocation) {
-                         navigator.geolocation.getCurrentPosition(showPosition);
-                     } else {
-                         x.innerHTML = "Geolocation is not supported by this browser.";
-                     }
-                 }
-
-                 function showPosition(position) {
-                     x.innerHTML = "Latitude: " + position.coords.latitude +
-                     "<br>Longitude: " + position.coords.longitude;
-                 }
-                 </script>
-
-                 <a href="tel:+34638581914">+34 638 58 19 14</a>
-                 <div id="close"><a href="#" id="hide">Cerrar</a></div>
-   </div>
 
 
 </div>

@@ -9,8 +9,10 @@
   <title>Work with slides in a WebScene - 4.2</title>
 
   <style>
+	  
     html,
     body,
+	  
     #viewDiv {
       padding: 0;
       margin: 0;
@@ -51,7 +53,7 @@
       /* Centramos el título del texto */
       text-align: center;
     }
-    /* Dibujamos diapositiva activa con un borde agradable alrededor de la miniatura */
+      /* Dibujamos diapositiva activa con un borde agradable alrededor de la miniatura */
 
     #slidesDiv .slide.active img {
       box-shadow: 0px 0px 12px black;
@@ -60,146 +62,78 @@
       border-color: black;
     }
 
-
-
-
     body {
-  background: #333;
-  background-image: url('http://assets.codepen.io/images/classy_fabric.png');
-}
+      background: #333;
+      background-image: url('http://assets.codepen.io/images/classy_fabric.png');
+    }
 
-#snow {
-    background-color: transparent;
-    background-image: url(http://wp.agens.no/smakebit/wp-content/themes/smakebiten/img/snow1.png), url(http://wp.agens.no/smakebit/wp-content/themes/smakebiten/img/snow2.png);
-    -webkit-animation: snow 20s linear infinite;
-    -moz-animation: snow 20s linear infinite;
-    -ms-animation: snow 20s linear infinite;
-    animation: snow 20s linear infinite;
+    #snow {
+      background-color: transparent;
+      background-image: url(http://wp.agens.no/smakebit/wp-content/themes/smakebiten/img/snow1.png), url(http://wp.agens.no/smakebit/wp-content/themes/smakebiten/img/snow2.png);
+      -webkit-animation: snow 20s linear infinite;
+      -moz-animation: snow 20s linear infinite;
+      -ms-animation: snow 20s linear infinite;
+      animation: snow 20s linear infinite;
 	z-index: 999;
 	right: 0;
-  top: 0;
-  left: 0;
-  bottom: 0;
+	top: 0;
+	left: 0;
+	bottom: 0;
 	margin-top: 0;
 	pointer-events: none;
 	position: absolute;
 
-}
-/*Keyframes*/
+     }
+	  
+   /*Keyframes*/
 
-@keyframes snow {
-    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
+    @keyframes snow {
+     0% { background-position: 0px 0px, 0px 0px, 0px 0px }
 
-    100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
-}
+     100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
+     }
 
-@-moz-keyframes snow {
-    0% { background-position: 0px 0px, 0px 0px, 0px 0px }
+    @-moz-keyframes snow {
+     0% { background-position: 0px 0px, 0px 0px, 0px 0px }
 
-    100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
-}
+     100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
+     }
 
-@-webkit-keyframes snow {
+   @-webkit-keyframes snow {
     0% { background-position: 0px 0px, 0px 0px, 0px 0px }
 
     100% {
         background-position: 500px 1000px, 400px 400px, 300px 300px;
+     }
     }
-}
 
-@-ms-keyframes snow {
+   @-ms-keyframes snow {
     0% { background-position: 0px 0px, 0px 0px, 0px 0px }
 
     100% { background-position: 500px 1000px, 400px 400px, 300px 300px }
-}
+    }
 
- #emergencias {
-
-   left: 100px;
-   top: 100px;
-   z-index: 99;
-   position: absolute;
-   width: 100px;
-   border-color: black;
-
-
- }
- #emergencias2 {
-   left: 200px;
-   top: 100px;
-   z-index: 99;
-   position: absolute;
-   width: 100px;
-    border-color: black;
-
-
- }
- 
- #myContent{
- background-color: white;
- top: 30%;
- left: 10%;
- height: 240px;
- width: 280px;
- position: absolute;
- text-align: center;
- border: 2px solid black;
- border-radius: 5px;
- border-style: inset;
- z-index: 1000;
- }
-
- #myContent2{
- top: 70px;
- left: 240px;
- position: absolute;
- text-align: center;
- z-index: 99;
- }
-#geo {
- z-index: 999;
-}
-#close{
-  text-align: center;
-  height: 43px;
-  width: 15px;
-  position: absolute;
-  z-index: 10001;
-
-}
-
-#locate {
+   #locate {
       left: 2.2%;
       top: 80%;
       border-radius: 50%;
-      background-color: #00cc00;
+      background-color: rgb(117, 223, 65);
       color: black;
       opacity: 0.8;
-    	z-index: 99;
-    	position: absolute;
-	    width: 32.5px;
+      z-index: 99;
+      position: absolute;
+      width: 32.5px;
       height: 32.5px;
-}
+     }
 
 
   </style>
-
-
-
-
-
-
-
-
-
   <link rel="stylesheet" href="https://js.arcgis.com/4.2/esri/css/main.css">
   <script src="https://js.arcgis.com/4.2/"></script>
 
   <script>
     require([
-
       "esri/views/SceneView",
-
       "esri/WebScene",
       "esri/webscene/Slide",
       "dojo/_base/fx",
@@ -211,14 +145,21 @@
       "esri/widgets/Track",
       "dojo/domReady!"
     ], function(
-      SceneView, WebScene, Slide, baseFx, domConstruct, domClass, dom, on, query, Track
+      SceneView, 
+       WebScene, 
+       Slide, 
+       baseFx, 
+       domConstruct, 
+       domClass, 
+       dom, 
+       on, 
+       query, 
+       Track
     ) {
 
+      // Creamos un nuevo WebScene referenciando un WebScene ID desde Arcgis Onlin
       
-     // Creamos un nuevo WebScene referenciando un WebScene ID desde Arcgis Onlin
-      
-       
-      var scene = new WebScene({
+       var scene = new WebScene({
         portalItem: { 
           id: "a188eaec513348af913aa5d7e55c2df6"
         }
@@ -343,9 +284,8 @@
       // Añadimos el widget 'Locate'
 
       var track = new Track({
-	      
-       view: view,
-       container: "locate"
+	      view: view,
+              container: "locate"
          );
 	      
       view.ui.add(track);
@@ -358,7 +298,7 @@
 </head>
 
 <body>
-
+  
   <div id="viewDiv"></div>
 
   <div id="createSlideDiv">
@@ -368,9 +308,9 @@
   </div>
   <div id="slidesDiv"></div>
 
-<section id="snow"></section>
+  <section id="snow"></section>
 
-<div id="locate"></div>
+  <div id="locate"></div>
 </body>
 
 </html>

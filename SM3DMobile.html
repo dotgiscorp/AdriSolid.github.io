@@ -338,67 +338,28 @@
        //   });
        // });
 
-
-
-
-
-
-      });
+   });
 
       // Añadimos el widget 'Locate'
 
       var track = new Track({
-      view: view,
-      container: "locate"
-
-      });
+	      
+       view: view,
+       container: "locate"
+         );
+	      
       view.ui.add(track);
+	      
       track.start();
 
-
-
-
-    });
+       });
   </script>
-
-
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-
-  <script type="text/javascript">
-
-  function toggleDiv(divId) {
-
-     $("#"+divId).toggle();
-
-  }
-
-  </script>
-
-
-
-
-  <script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-  $("#hide").click(function(){
-    $("#element").hide();
-  });
-  $("#show").click(function(){
-    $("#element").show();
-  });
-});
-</script>
-
-
 
 </head>
 
 <body>
 
-
   <div id="viewDiv"></div>
-
-
 
   <div id="createSlideDiv">
     Nueva captura: <input type="text" id="createSlideTitleInput" size="2"/>
@@ -407,35 +368,7 @@ $(document).ready(function(){
   </div>
   <div id="slidesDiv"></div>
 
-
-
-
-
-
-
-
-
 <section id="snow"></section>
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-<a href="#" id="show">
-<img id="phone" src="phone.svg" alt="phone">
-</a>
-
-
-
 
 <div id="locate"></div>
 </body>

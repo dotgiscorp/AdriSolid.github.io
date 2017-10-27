@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html ng-app="Simple Leaflet - Angular Web Map" ng-init="baseMap1='CARTO DarkMatter';
+                                                         baseMap2='OpenStreetMap';
+                                                         baseMap3='Stamen Watercolor';
+                                                         baseMap4='Esri World Terrain';
+                                                         baseMap5='Earth Night NASA';
+                                                         buttonType='button';
+                                                         tooltipPosition='left';">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="http://tombatossals.github.io/angular-leaflet-directive/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="http://tombatossals.github.io/angular-leaflet-directive/bower_components/leaflet/dist/leaflet.js"></script>
+    <script type="text/javascript" src="http://tombatossals.github.io/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
+    <link rel="stylesheet" href="http://tombatossals.github.io/angular-leaflet-directive/bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+     html, body{
+         height: 100vh;
+     }
+     .btn{
+         position: absolute;
+         z-index: 1;
+         right: 5vh;
+         height: 4vh;
+         width: 2vw;
+     }
+     #cartoDarkMatterButton{
+         top: 10vh;
+     }
+     #openStreetMapsButton{
+         top: 30vh;
+     }
+     #stamenWatercolorMapsButton{
+         top: 50vh;
+     }
+     #esriWorldTerrainButton{
+         top: 70vh;
+     }
+     #earthNightNASAButton{
+         top: 90vh;
+     }
+    </style>
+    <script>
+      const app = angular.module("Simple Leaflet - Angular Web Map", ["leaflet-directive"]);
+      app.controller("controlador", [ '$scope', function($scp) {
+        $scp.basemaps = {
+            cartoDarkMatter: {
+                url: "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png",
+                options: {
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+                }
+            },
+            openstreetmap: {
+                url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+                options: {
+                    attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                }
+            },
+            stamenWatercolor: {
+                url: "https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}",
+                options: {
+                    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                    ext: 'png'
+                }
+            },
+            esriWorldTerrain: {
+                url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}",
+                options: {
+                    attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS'
+                }
+            },
+            earthNightNASA: {
+                url: "https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}",
+                options: {
+                    attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
+                    bounds: [[-85.0511287776, -179.999999975], [85.0511287776, 179.999999975]],
+                    minZoom: 1,
+                    maxZoom: 8,
+                    format: 'jpg',
+                    time: '',
+                    tilematrixset: 'GoogleMapsCompatible_Level'
+                }
+            }
+        };
+        angular.extend($scp, {
+            europe: {
+                lat: 50,
+                lng: 33,
+                zoom: 4
+            },
+            tiles: $scp.basemaps.cartoDarkMatter
+        });
+        $scp.changeTiles = function(tiles) {
+            $scp.tiles = $scp.basemaps[tiles];
+        };
+    } ]);
+  </script>
+  </head>
+  <body>
+    <div ng-controller="controlador" >
+      <button type="{{ buttonType }}" ng-click="changeTiles('cartoDarkMatter')" id="cartoDarkMatterButton" 
+          class="btn btn-warning" data-placement="{{ tooltipPosition }}" title="{{ baseMap1 }}"
+          onmouseenter="$(this).tooltip('show')">
+      </button>
+      <button type="{{ buttonType }}" ng-click="changeTiles('openstreetmap')" id="openStreetMapsButton"
+          class="btn btn-danger" data-placement="{{ tooltipPosition }}" title="{{ baseMap2 }}"
+          onmouseenter="$(this).tooltip('show')">
+      </button>
+      <button type="{{ buttonType }}" ng-click="changeTiles('stamenWatercolor')" id="stamenWatercolorMapsButton"
+          class="btn btn-success" data-placement="{{ tooltipPosition }}" title="{{ baseMap3 }}"
+          onmouseenter="$(this).tooltip('show')">
+      </button>
+      <button type="{{ buttonType }}" ng-click="changeTiles('esriWorldTerrain')" id="esriWorldTerrainButton"
+          class="btn btn-primary" data-placement="{{ tooltipPosition }}" title="{{ baseMap4 }}"
+          onmouseenter="$(this).tooltip('show')">
+      </button>
+      <button type="{{ buttonType }}" ng-click="changeTiles('earthNightNASA')" id="earthNightNASAButton"
+          class="btn btn-info" data-placement="{{ tooltipPosition }}" title="{{ baseMap5 }}"
+          onmouseenter="$(this).tooltip('show')">
+      </button>
+      <leaflet center="europe" tiles="tiles" width="100vw" height="100vh"></leaflet>
+    </div>
+  </body>
+</html>

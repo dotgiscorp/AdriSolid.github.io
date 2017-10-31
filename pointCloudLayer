@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html ng-app="pointCloudLayer">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <title>Search Widget</title>
+
+    
+       <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
+        <style type="text/css">
+            
+            .esri-view {
+                height: 97.5vh;
+            }
+        </style>
+    </head>
+    <body>
+        
+      <div ng-controller="controlador as sceneView">
+            <esri-scene-view map="sceneView.map" on-create="sceneView.onViewCreated" 
+                view-options="{
+                    camera: {
+                        heading: 210,
+                        tilt: 78,
+                        position: {
+                            x: -8249335,
+                            y: 4831005,
+                            z: 50.7,
+                            spatialReference: {
+                            wkid: 3857
+                            }
+                        }
+                     }
+                }">
+                <esri-home-button view="sceneView.sceneView" 
+                    view-ui-position="{
+                        position: 'bottom-left',
+                        index: 2
+                    }"
+                    ng-show="sceneView.viewLoaded">
+                </esri-home-button>
+            </esri-scene-view>
+        </div>
+
+        <script src="https://js.arcgis.com/4.5"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="https://unpkg.com/angular-esri-map@2"></script>
+        <script type="text/javascript">
+            'use strict';
+            angular.module('pointCloudLayer', ['esri.map'])
+                .controller('controlador', function(esriLoader, $scope) {
+                    const self = this;
+                    esriLoader.require([
+                        'esri/Map',
+                        'esri/widgets/Search',
+                        'esri/layers/PointCloudLayer'
+                    ], function(Map, Search, PointCloudLayer) {
+                        self.map = new Map({
+                            basemap: 'streets-relief-vector',
+                            ground: 'world-elevation'
+                        });
+                        self.pcLayer = new PointCloudLayer({
+                            url: "https://tiles.arcgis.com/tiles/V6ZHFr6zdgNZuVG0/arcgis/rest/services/BARNEGAT_BAY_LiDAR_UTM/SceneServer"
+                        });
+                        self.map.add(self.pcLayer);
+                        self.onViewCreated = function(view) {
+                            self.sceneView = view;
+                            self.viewLoaded = true;
+                            const searchWidget = new Search({
+                                view: view
+                            });
+                            searchWidget.startup();
+                      
+                            view.ui.add(searchWidget, {
+                                position: 'top-left',
+                                index: 0
+                            });
+                            
+                            $scope.$on('$destroy', function() {
+                                searchWidget.destroy();
+                            });
+                        };
+                    });
+                });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="AngularJS - ArcGIS API for JS 4.5">
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <title>AngularJS - ArcGIS API for JS 4.5 - Alcoy2D-3D</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
+  <style>
+    html,
+    body,
+    .esri-view {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+    }
+    .viewDivStyle{
+        height: 60%; 
+        width: 45%; 
+        position: absolute; 
+        top: 1%;
+        right: 1%;
+        border-style: dashed;
+        border-width: 3px;
+        border-color: rgb(0, 153, 255);
+    }
+  </style>
+</head>
+
+<body ng-controller="controlador as mapView">
+  <esri-map-view map="mapView.map"
+    view-options="{
+      zoom: 12,
+      center: [-0.4175, 38.7002],
+      ui: {
+        components: ['attribution']
+      },
+      constraints: {
+        minZoom: 12,
+        maxZoom: 16
+      }
+    }"
+
+    on-create="mapView.onViewCreated">
+  </esri-map-view>
+
+  <script src="https://js.arcgis.com/4.5"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="https://unpkg.com/angular-esri-map@2"></script>
+  
+  <div id="viewDiv" class="viewDivStyle"></div>
+  
+  <script>
+    angular.module('AngularJS - ArcGIS API for JS 4.5', ['esri.map'])
+      .controller('controlador', function(esriLoader) {
+        const self = this;
+        this.viewLoaded = false;
+        esriLoader.require([
+          'esri/Map', 'esri/views/SceneView', 'dojo/dom-style', 'dojo/dom-attr'
+        ], function(Map, SceneView, domStyle, domAttr) {
+         
+          self.map = new Map({
+            basemap: 'streets-night-vector',
+            ground: "world-elevation"
+          });
+          self.sceneOnOpen = new SceneView({
+            container: "viewDiv",
+            map: self.map,
+            scale: 50000000,
+            center: [0, 0]
+          });
+          self.onViewCreated = function(view) {
+            
+           if(self.sceneOnOpen){
+                 setTimeout(function(){ 
+                    self.mapView = view;
+                    self.viewLoaded = true; 
+                    self.sceneOnOpen
+                        .then(function() {
+                            self.sceneOnOpen.goTo({
+                                center: [view.center.longitude - 0.04, view.center.latitude + 0.02],
+                                zoom: view.zoom + 2,
+                                heading: 0,
+                                tilt: 80
+                            })
+                         })  
+                    }, 4000);
+           } else{
+             domAttr.set("viewDiv", "innerHTML", "SceneView not found");
+             domStyle.set("viewDiv", 'background-color', 'white');
+           }
+          };
+        });
+      })
+  </script>
+</body>
+</html>

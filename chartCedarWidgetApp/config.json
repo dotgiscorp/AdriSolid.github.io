@@ -121,20 +121,6 @@
       },
       {
         "position": {
-          "left": 60,
-          "top": 53,
-          "relativeTo": "map"
-        },
-        "placeholderIndex": 1,
-        "id": "_40",
-        "name": "BasemapGallery",
-        "version": "2.6",
-        "closeable": true,
-        "uri": "widgets/BasemapGallery/Widget",
-        "config": "configs/BasemapGallery/config_BasemapGallery.json"
-      },
-      {
-        "position": {
           "left": 105,
           "top": 53,
           "relativeTo": "map"

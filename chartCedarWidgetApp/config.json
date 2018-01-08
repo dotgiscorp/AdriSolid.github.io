@@ -44,6 +44,17 @@
         "name": "Search"
       },
       {
+          "name": "barChartCedar",
+          "version": "2.6",
+          "uri": "widgets/barChartCedar/Widget",
+          "position": {
+            "left": 120,
+            "top": 50
+          },
+          "config": "configs/barChartCedar/config_barChartCedar.json",
+          "id": "widgets_BasemapGallery_Widget_31"
+      },
+      {
         "uri": "widgets/ZoomSlider/Widget",
         "position": {
           "top": 10,
@@ -275,7 +286,6 @@
             "top": 50
           },
           "config": "configs/barChartCedar/config_barChartCedar.json",
-          "index": 5,
           "id": "widgets_BasemapGallery_Widget_31"
         },
         {

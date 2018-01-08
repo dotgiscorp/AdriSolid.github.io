@@ -6,9 +6,5 @@
   "author": "Adrián Pérez Beneito",
   "description": "",
   "copyright": "",
-  "license": "http://www.apache.org/licenses/LICENSE-2.0",
-  "featureActions": [{
-    "name": "ShowVertex",
-    "uri": "ShowVertexFeatureAction"
-  }]
+  "license": "http://www.apache.org/licenses/LICENSE-2.0"
 }

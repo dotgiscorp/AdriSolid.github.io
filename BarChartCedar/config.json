@@ -255,10 +255,10 @@
     },
     "widgets": [
       {
-        "uri": "widgets/Legend/Widget",
+        "uri": "widgets/barChartWidget/Widget",
         "version": "2.6",
         "id": "widgets_Legend_Widget_18",
-        "name": "Legend",
+        "name": "barChartWidget",
         "index": 0
       },
       {

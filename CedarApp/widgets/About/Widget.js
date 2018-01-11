@@ -39,13 +39,13 @@ return declare([BaseWidget], {
         this.initSelects()
         this.initButton()
         this.initCheckButton()
-        if(this.getPanel().containerNode.clientWidth){
+        /*if(this.getPanel().containerNode.clientWidth){
           this.initialWidgetWidth = this.getPanel().containerNode.clientWidth
           this.methodWidth = 'this.getPanel().containerNode.clientWidth'
         } else{
           this.initialWidgetWidth = this.getPanel().domNode.clientWidth
           this.methodWidth = 'this.getPanel().domNode.clientWidth'
-        }
+        }*/
       },
 
       initLayerChooser: function(){

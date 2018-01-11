@@ -87,7 +87,8 @@
         "version": "2.6",
         "closeable": true,
         "uri": "widgets/About/Widget",
-        "config": "configs/About/config_About.json"
+        "config": "configs/About/config_About.json",
+        "openAtStart": true
       },
       {
         "position": {

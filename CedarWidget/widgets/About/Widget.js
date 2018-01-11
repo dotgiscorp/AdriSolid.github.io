@@ -2,23 +2,16 @@ define(['dojo/_base/declare',
         'jimu/BaseWidget',
         "dojo/on",
         "dojo/_base/lang",
-        "jimu/dijit/LayerChooserFromMap",
-        "jimu/dijit/LayerChooserFromMapWithDropbox",
         "dijit/form/Select",
         "dijit/form/Button",
         "dijit/form/CheckBox",
-        "dojo/dom-construct",
-        "dijit/registry",
+        "./selectWebMapLayers",
         'dijit/_WidgetsInTemplateMixin',
         "dojo/dom",
-        'dojo/query',  
-        'dojo/dom-style',
         "dojo/_base/connect",
         "dojo/domReady!"
 ],
-function(declare, BaseWidget, on, lang, LayerChooserFromMap, LayerChooserFromMapWithDropbox, 
-         Select, Button, CheckBox, domConstruct, registry,
-         _WidgetsInTemplateMixin, dom, dojoQuery, domStyle) {
+(declare, BaseWidget, on, lang, Select, Button, CheckBox, selectWebMapLayers, _WidgetsInTemplateMixin, dom) => {
 
 return declare([BaseWidget], {
 
@@ -49,25 +42,18 @@ return declare([BaseWidget], {
       },
 
       initLayerChooser: function(){
-        const args = {
-        multiple: false,
-        createMapResponse: this.map.webMapResponse
-        }
-
-        var templayerChooserFromMap = new LayerChooserFromMap(args)
-
-        var layerChooserFromMap = new LayerChooserFromMapWithDropbox({
-        layerChooser: templayerChooserFromMap
-        })
-
-        layerChooserFromMap.placeAt('layerChooserNode')
-        layerChooserFromMap.startup()
-
         const self = this;
-              
-        this.own(on(layerChooserFromMap, 'selection-change', (layerInfo) => {
-          self.options(layerInfo)
-        }))
+        const idForChangeEvent = "layerChooserNodeEvent";
+
+        var layer = new selectWebMapLayers({
+          idForChangeEvent: idForChangeEvent,
+          layerNode: "layerChooserNode",
+          map: this.map
+        });
+
+        dijit.byId(idForChangeEvent).on("change", function(){
+          self.options(self.map.getLayer(this.get("value")));
+        })
       },
 
       initSelects: function(){
@@ -105,28 +91,28 @@ return declare([BaseWidget], {
       },
 
       options: function(layer){
-        this.url = layer[0].url
-        this.startUpExtent = layer[0].initialExtent
-        var fields = layer[0].fields
+        this.url = layer.url
+        this.startUpExtent = layer.initialExtent
+        var fields = layer.fields
 
         var map = fields.map((record) => {
-        return dojo.create("option", {
-          label: record.name,
-          value: record.name,
-          selected: false
-        })
+          return dojo.create("option", {
+            label: record.name,
+            value: record.name,
+            selected: false
+          })
         })
 
         const selectX = dijit.byId('selectFieldX')
         const selectY = dijit.byId('selectFieldY')
 
         if(selectX.getOptions()){
-        selectX.removeOption(selectX.getOptions())
-        selectY.removeOption(selectY.getOptions())
-        selectX.addOption({label: "", value: "", selected: true})
-        selectY.addOption({label: "", value: "", selected: true})
-        selectX.addOption(map)
-        selectY.addOption(map)
+          selectX.removeOption(selectX.getOptions())
+          selectY.removeOption(selectY.getOptions())
+          selectX.addOption({label: "", value: "", selected: true})
+          selectY.addOption({label: "", value: "", selected: true})
+          selectX.addOption(map)
+          selectY.addOption(map)
         }
       },
 
@@ -136,7 +122,7 @@ return declare([BaseWidget], {
         label: "Execute",
         onClick: () => {
             self.displayChart()
-        }
+         }
         }, "executeChart").startup()
       },
 

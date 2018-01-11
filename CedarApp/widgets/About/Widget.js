@@ -2,8 +2,6 @@ define(['dojo/_base/declare',
         'jimu/BaseWidget',
         "dojo/on",
         "dojo/_base/lang",
-        "jimu/dijit/LayerChooserFromMap",
-        "jimu/dijit/LayerChooserFromMapWithDropbox",
         "dijit/form/Select",
         "dijit/form/Button",
         "dijit/form/CheckBox",
@@ -16,7 +14,7 @@ define(['dojo/_base/declare',
         "dojo/_base/connect",
         "dojo/domReady!"
 ],
-function(declare, BaseWidget, on, lang, LayerChooserFromMap, LayerChooserFromMapWithDropbox, 
+function(declare, BaseWidget, on, lang,
          Select, Button, CheckBox, domConstruct, registry,
          _WidgetsInTemplateMixin, dom, dojoQuery, domStyle) {
 

@@ -47,28 +47,42 @@ return declare([BaseWidget], {
       },
 
       initLayerChooser: function(){
-        /*const args = {
-        multiple: false,
-        createMapResponse: this.map.webMapResponse
+        new Select({
+          name: "layerChooserNode",
+          id: "_layerChooserNode"
+        }).placeAt('layerChooserNode').startup();
+
+        var layers = [];
+
+        for(var i = 0; i < this.map.graphicsLayerIds.length; i++) {
+          var layerObject = this.map.getLayer(this.map.graphicsLayerIds[i]);
+          if(layerObject.url){
+            layers.push(layerObject)
+          } 
         }
 
-        var templayerChooserFromMap = new LayerChooserFromMap(args)
-
-        var layerChooserFromMap = new LayerChooserFromMapWithDropbox({
-        layerChooser: templayerChooserFromMap
+        var map = layers.map((record) => {
+          return dojo.create("option", {
+            label: record.name,
+            value: record.id,
+            selected: false
+          })
         })
 
-        layerChooserFromMap.placeAt('layerChooserNode')
-        layerChooserFromMap.startup()
+        const selectLayer = dijit.byId('_layerChooserNode')
 
-        this.own(on(layerChooserFromMap, 'selection-change', (layerInfo) => {
-          this.options(layerInfo)
-        }))*/
-              
-        new Select({
-           name: "layerChooserNode",
-           id: "_layerChooserNode"
-        }).placeAt('layerChooserNode').startup()
+        if(selectLayer.getOptions()){
+          selectLayer.removeOption(selectLayer.getOptions())
+          selectLayer.addOption({label: "", value: "", selected: true})
+          selectLayer.addOption(map)
+        }
+
+        const self = this;
+
+        selectLayer.on("change", function(){
+          var layer = self.options(self.map.getLayer(this.get("value")));
+          console.log(layer);
+        })
       },
 
       initSelects: function(){
@@ -106,9 +120,9 @@ return declare([BaseWidget], {
       },
 
       options: function(layer){
-        this.url = layer[0].url
-        this.startUpExtent = layer[0].initialExtent
-        var fields = layer[0].fields
+        this.url = layer.url
+        this.startUpExtent = layer.initialExtent
+        var fields = layer.fields
 
         var map = fields.map((record) => {
         return dojo.create("option", {

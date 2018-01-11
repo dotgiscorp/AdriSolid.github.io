@@ -49,7 +49,7 @@ return declare([BaseWidget], {
       },
 
       initLayerChooser: function(){
-        const args = {
+        /*const args = {
         multiple: false,
         createMapResponse: this.map.webMapResponse
         }
@@ -65,7 +65,12 @@ return declare([BaseWidget], {
 
         this.own(on(layerChooserFromMap, 'selection-change', (layerInfo) => {
           this.options(layerInfo)
-        }))
+        }))*/
+              
+        new Select({
+           name: "layerChooserNode",
+           id: "_layerChooserNode"
+        }).placeAt('layerChooserNode').startup()
       },
 
       initSelects: function(){

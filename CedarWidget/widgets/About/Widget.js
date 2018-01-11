@@ -63,8 +63,10 @@ return declare([BaseWidget], {
         layerChooserFromMap.placeAt('layerChooserNode')
         layerChooserFromMap.startup()
 
+        const self = this;
+              
         this.own(on(layerChooserFromMap, 'selection-change', (layerInfo) => {
-          this.options(layerInfo)
+          self.options(layerInfo)
         }))
       },
 

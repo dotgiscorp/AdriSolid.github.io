@@ -80,8 +80,7 @@ return declare([BaseWidget], {
         const self = this;
 
         selectLayer.on("change", function(){
-          var layer = self.options(self.map.getLayer(this.get("value")));
-          console.log(layer);
+          self.options(self.map.getLayer(this.get("value")));
         })
       },
 

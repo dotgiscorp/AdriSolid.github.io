@@ -46,6 +46,11 @@ define([
               label: '<img src="https://adrisolid.github.io/CedarWidget/jimu.js/css/images/line_layer1.png" height="12.5" width="12.5"> ' + record.name,
               value: record.id
             })
+          case record.geometryType === "esriGeometryPolyLine":
+            return dojo.create("option", {
+              label: '<img src="https://adrisolid.github.io/CedarWidget/jimu.js/css/images/line_layer1.png" height="12.5" width="12.5"> ' + record.name,
+              value: record.id
+            })
           case record.geometryType === "esriGeometryMultiPatch":
             return dojo.create("option", {
               label: '<span><strong> M</strong></span> ' + record.name,

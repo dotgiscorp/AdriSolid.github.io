@@ -64,7 +64,7 @@ define([
         }
       })
 
-      const selectLayer = dijit.byId(id)
+      var selectLayer = dijit.byId(id)
             selectLayer.addOption(recording)
     },
 

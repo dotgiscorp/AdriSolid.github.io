@@ -45,8 +45,8 @@ return declare([BaseWidget], {
       },
 
       initLayerChooser: function(){
-        const self = this;
-        const idForChangeEvent = "layerChooserNodeEvent";
+        var self = this;
+        var idForChangeEvent = "layerChooserNodeEvent";
 
         var layer = new idWebMapLayers({
           idForChangeEvent: idForChangeEvent,
@@ -79,7 +79,7 @@ return declare([BaseWidget], {
                       {label: "Bar-horizontal", value: "bar-horizontal"}]
           }).placeAt('typeChartContainer').startup()
 
-        const self = this
+        var self = this
 
         var fieldXid = dijit.byId('selectFieldX');
         this.fieldX = fieldXid.value;
@@ -108,15 +108,15 @@ return declare([BaseWidget], {
         this.startUpExtent = layer.initialExtent
         var fields = layer.fields
 
-        var map = fields.map((record) => {
+        var map = fields.map(function(record){
           return dojo.create("option", {
             label: record.name,
             value: record.name
           })
         })
 
-        const selectX = dijit.byId('selectFieldX')
-        const selectY = dijit.byId('selectFieldY')
+        var selectX = dijit.byId('selectFieldX')
+        var selectY = dijit.byId('selectFieldY')
 
         if(selectX.getOptions()){
           selectX.removeOption(selectX.getOptions())
@@ -127,21 +127,21 @@ return declare([BaseWidget], {
       },
 
       initButton: function(){
-        const self = this
-        let myButton = new Button({
+        var self = this
+        var myButton = new Button({
         label: "Execute",
-        onClick: () => {
+        onClick: function(){
             self.displayChart()
          }
         }, "executeChart").startup()
       },
 
       initCheckButton: function(){
-        const self = this;
-        let checkBox = new CheckBox({
+        var self = this;
+        var checkBox = new CheckBox({
         name: "checkBox",
         checked: false,
-        onChange: (chb) => { 
+        onChange: function(chb){ 
           if(chb === true){
             this.event = this.map.on('extent-change', function() {
               self.onExtentChanged()
@@ -180,19 +180,19 @@ return declare([BaseWidget], {
       },
 
       resize: function(){
-        this.chart.width =  eval(this.methodWidth) * 0.9
-        this.chart.update()
+        this.chart.width =  eval(this.methodWidth) * 0.9;
+        this.chart.update();
       },
 
       onExtentChanged: function(){
-        let extent = this.map.geographicExtent.toJson()
-        this.chart.dataset.query.bbox = extent.xmin + ',' + extent.xmax + ',' + extent.ymin + ',' + extent.ymax
-        this.chart.update()
+        var extent = this.map.geographicExtent.toJson();
+        this.chart.dataset.query.bbox = extent.xmin + ',' + extent.xmax + ',' + extent.ymin + ',' + extent.ymax;
+        this.chart.update();
       },
 
       onExtentChangedOff: function(){
-        this.chart.dataset.query.bbox = null
-        this.chart.update()
+        this.chart.dataset.query.bbox = null;
+        this.chart.update();
       }
 
     })

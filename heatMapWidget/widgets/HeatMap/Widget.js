@@ -41,8 +41,8 @@ function(declare, BaseWidget, on, Select, Button, CheckBox, idWebMapLayers,
     },
 
     initLayerChooser: function(){
-        const self = this;
-        const idForChangeEvent = "layerChooserNodeEvent";
+        var self = this;
+        var idForChangeEvent = "layerChooserNodeEvent";
 
         var layer = new idWebMapLayers({
           idForChangeEvent: idForChangeEvent,
@@ -64,7 +64,7 @@ function(declare, BaseWidget, on, Select, Button, CheckBox, idWebMapLayers,
             id: "fieldSelector"
         }).placeAt('selectField').startup();
 
-        const self = this
+        var self = this
 
         var fieldId = dijit.byId('fieldSelector');
         this.field = fieldId.value;
@@ -80,14 +80,14 @@ function(declare, BaseWidget, on, Select, Button, CheckBox, idWebMapLayers,
         this.url = layer.url;
         var fields = layer.fields;
 
-        var map = fields.map((record) => {
+        var map = fields.map(function(record){
             return dojo.create("option", {
               label: record.name,
               value: record.name
             });
         });
 
-        const select = dijit.byId('fieldSelector');
+        var select = dijit.byId('fieldSelector');
 
         if(select.getOptions()){
             select.removeOption(select.getOptions());
@@ -96,33 +96,33 @@ function(declare, BaseWidget, on, Select, Button, CheckBox, idWebMapLayers,
     },
 
     initButton: function(){
-        const self = this;
+        var self = this;
         new Button({
         label: "Execute",
-        onClick: () => {
+        onClick: function(){
             self.displayHeatMapLayer();
         }
         }, 'executeHeatMap').startup();
     },
 
     initSliders: function(){
-    const self = this;
+    var self = this;
 
-    let valueBlurRadius = 10;
+    var valueBlurRadius = 10;
     new HorizontalSlider({
         id: "blurRadius",
         value: valueBlurRadius,
         minimum: 0,
         maximum: 30,
         style: "width:300px;",
-        onChange: (value) => {
+        onChange: function(value){
             self.blurRadius = value;
             dom.byId("blurRadiusDom").innerHTML = value.toFixed(0);
          }
     }, 'blurRadiusNode').startup()
     dom.byId("blurRadiusDom").innerHTML = valueBlurRadius;
 
-    let blurRadiusSlider = dijit.byId('blurRadius');
+    var blurRadiusSlider = dijit.byId('blurRadius');
     this.blurRadius = blurRadiusSlider.value;
     blurRadiusSlider.on("change", function(){
         var value = this.get("value");
@@ -134,21 +134,21 @@ function(declare, BaseWidget, on, Select, Button, CheckBox, idWebMapLayers,
         }
     });
 
-    let valueMaxValue = 100;
+    var valueMaxValue = 100;
     new HorizontalSlider({
         id: "maxValue",
         value: valueMaxValue,
         minimum: 0,
         maximum: 500,
         style: "width:300px;",
-        onChange: (value) => {
+        onChange: function(value){
             self.maxValue = value;
             dom.byId("maxValueDom").innerHTML = value.toFixed(0);
          }
     }, 'maxValueNode').startup();
     dom.byId("maxValueDom").innerHTML = valueMaxValue;
 
-    let maxValueSlider = dijit.byId('maxValue');
+    var maxValueSlider = dijit.byId('maxValue');
     this.maxValue = maxValueSlider.value;
     maxValueSlider.on("change", function(){
         var value = this.get("value");
@@ -160,42 +160,42 @@ function(declare, BaseWidget, on, Select, Button, CheckBox, idWebMapLayers,
         }
     });
 
-    let valueMinValue = 1;
+    var valueMinValue = 1;
     new HorizontalSlider({
         id: "minValue",
         value: valueMinValue,
         minimum: 0,
         maximum: 500,
         style: "width:300px;",
-        onChange: (value) => {
+        onChange: function(value){
             self.minValue = value;
             dom.byId("minValueDom").innerHTML = value.toFixed(0);
          }
     }, 'minValueNode').startup();
     dom.byId("minValueDom").innerHTML = valueMinValue;
 
-    let minValueSlider = dijit.byId('minValue');
+    var minValueSlider = dijit.byId('minValue');
     this.minValue = minValueSlider.value;
     minValueSlider.on("change", function(){
         var value = this.get("value");
         if(self.heatmapRenderer !== null){
             if (value !== self.heatmapRenderer.minPixelIntensity) {
-            self.heatmapRenderer.minPixelIntensity = value;
-            self.heatmapFeatureLayer.redraw();
+              self.heatmapRenderer.minPixelIntensity = value;
+              self.heatmapFeatureLayer.redraw();
             }
         }
     });
     },
       
     hideShowHeatMapSlider: function(){
-        const self = this;
+        var self = this;
 
         new CheckBox({
         name: "hideShowSlider",
         checked: false,
-        onChange: (evt) => { 
+        onChange: function(evt){ 
             if(evt === true){
-            domStyle.set(self.slider, 'display', 'block');
+              domStyle.set(self.slider, 'display', 'block');
             } else{
                 domStyle.set(self.slider, 'display', 'none');
             }
@@ -255,13 +255,13 @@ function(declare, BaseWidget, on, Select, Button, CheckBox, idWebMapLayers,
             }
         ];
 
-        let heatmapSliderDev = new HeatmapSlider({
+        var heatmapSliderDev = new HeatmapSlider({
           "colorStops": this.myStops
         }, "heatmapSliderDev");
         heatmapSliderDev.startup();
 
-        const self = this;
-        heatmapSliderDev.on("change", (evt) => {
+        var self = this;
+        heatmapSliderDev.on("change", function(evt){
           if(self.heatmapRenderer !== null){
             self.heatmapRenderer.setColorStops(evt);
             self.heatmapFeatureLayer.redraw();
@@ -270,8 +270,8 @@ function(declare, BaseWidget, on, Select, Button, CheckBox, idWebMapLayers,
     },
 
     displayHeatMapLayer: function(){
-        let serviceURL = this.url;
-        let heatmapFeatureLayerOptions = {
+        var serviceURL = this.url;
+        var heatmapFeatureLayerOptions = {
             mode: FeatureLayer.MODE_SNAPSHOT,
             outFields: [this.field]
         };

@@ -22,7 +22,7 @@ return declare([BaseWidget], {
       typeChart: null,
       chart: null,
       startUpExtent: null,
-      event: null,
+      evt: null,
       initialWidgetWidth: null,
       methodWidth: null,
 
@@ -143,11 +143,11 @@ return declare([BaseWidget], {
         checked: false,
         onChange: function(chb){ 
           if(chb === true){
-            this.event = this.map.on('extent-change', function() {
+            this.evt = this.map.on('extent-change', function() {
               self.onExtentChanged()
             });
           } else{
-              this.event.remove()
+              this.evt.remove()
               self.onExtentChangedOff()
           }
         }

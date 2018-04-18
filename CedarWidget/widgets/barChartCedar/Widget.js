@@ -1,21 +1,19 @@
 define(['dojo/_base/declare', 
         'jimu/BaseWidget',
-        "dojo/on",
-        "dojo/_base/lang",
-        "dijit/form/Select",
-        "dijit/form/Button",
-        "dijit/form/CheckBox",
-        "./idWebMapLayers",
+        'dojo/on',
+        'dojo/_base/lang',
+        'dijit/form/Select',
+        'dijit/form/Button',
+        'dijit/form/CheckBox',
+        './webMapLayersIds',
         'dijit/_WidgetsInTemplateMixin',
-        "dojo/dom",
-        "dojo/_base/connect",
-        "dojo/domReady!"
-],
-(declare, BaseWidget, on, lang, Select, Button, CheckBox, idWebMapLayers, _WidgetsInTemplateMixin, dom) => {
+        'dojo/dom',
+        'dojo/_base/connect',
+        'dojo/domReady!'],
+function(declare, BaseWidget, on, lang, Select, Button, CheckBox, idWebMapLayers, _WidgetsInTemplateMixin, dom){
 
 return declare([BaseWidget], {
 
-      baseClass: 'jimu-widget-chart-widget',
       fieldX: null,
       fieldY: null,
       url: null,
@@ -24,41 +22,41 @@ return declare([BaseWidget], {
       startUpExtent: null,
       evt: null,
       initialWidgetWidth: null,
-      methodWidth: null,
+      widthMethod: null,
 
       startup: function() {
-        this.inherited(arguments);
-        this.getContainerWidth();
-        this.initLayerChooser();
-        this.initButton();
-        this.initCheckButton();
+        this.inherited(arguments)
+        this.getContainerWidth()
+        this.initLayerChooser()
+        this.initButton()
+        this.initCheckButton()
       },
 
       getContainerWidth: function(){
         if(this.getPanel().containerNode.clientWidth){
           this.initialWidgetWidth = this.getPanel().containerNode.clientWidth
-          this.methodWidth = 'this.getPanel().containerNode.clientWidth'
+          this.widthMethod = 'this.getPanel().containerNode.clientWidth'
         } else{
           this.initialWidgetWidth = this.getPanel().domNode.clientWidth
-          this.methodWidth = 'this.getPanel().domNode.clientWidth'
+          this.widthMethod = 'this.getPanel().domNode.clientWidth'
         }
       },
 
       initLayerChooser: function(){
-        var self = this;
-        var idForChangeEvent = "layerChooserNodeEvent";
+        var idForChangeEvent = "layerChooserNodeEvent"
 
         var layer = new idWebMapLayers({
           idForChangeEvent: idForChangeEvent,
           layerNode: "layerChooserNode",
-          map: this.map
+          map: this.map,
+          geometry: "*"
         });
 
-        this.initSelects(dijit.byId(idForChangeEvent).value);
+        this.initSelects(dijit.byId(idForChangeEvent).value)
      
-        dijit.byId(idForChangeEvent).on("change", function(){
-          self.options(this.get("value"));
-        })
+        dijit.byId(idForChangeEvent).on("change", lang.hitch(this, function(event){
+          this.options(event)
+        }))
       },
 
       initSelects: function(layerId){
@@ -79,25 +77,23 @@ return declare([BaseWidget], {
                       {label: "Bar-horizontal", value: "bar-horizontal"}]
           }).placeAt('typeChartContainer').startup()
 
-        var self = this
-
         var fieldXid = dijit.byId('selectFieldX');
         this.fieldX = fieldXid.value;
-        fieldXid.on("change", function(){
-            self.fieldX = this.get("value")
-        }) 
+        fieldXid.on("change", lang.hitch(this, function(event){
+            this.fieldX = event
+        }))
 
         var fieldYid = dijit.byId('selectFieldY');
         this.fieldY = fieldYid.value;
-        fieldYid.on("change", function(){
-            self.fieldY = this.get("value")
-        })
+        fieldYid.on("change", lang.hitch(this, function(event){
+            this.fieldY = event
+        }))
 
         var typeChartId = dijit.byId('_typeChart');
         this.typeChart = typeChartId.value;
-        typeChartId.on("change", function(){
-            self.typeChart = this.get("value")
-        })
+        typeChartId.on("change", lang.hitch(this, function(event){
+            this.typeChart = event
+        }))
 
         this.options(layerId);
       },
@@ -127,30 +123,28 @@ return declare([BaseWidget], {
       },
 
       initButton: function(){
-        var self = this
-        var myButton = new Button({
-        label: "Execute",
-        onClick: function(){
-            self.displayChart()
-         }
+        new Button({
+          label: "Execute",
+          onClick: lang.hitch(this, function(){
+              this.displayChart()
+          })
         }, "executeChart").startup()
       },
 
       initCheckButton: function(){
-        var self = this;
-        var checkBox = new CheckBox({
-        name: "checkBox",
-        checked: false,
-        onChange: function(chb){ 
-          if(chb === true){
-            this.evt = this.map.on('extent-change', function() {
-              self.onExtentChanged()
-            });
-          } else{
-              this.evt.remove()
-              self.onExtentChangedOff()
-          }
-        }
+        new CheckBox({
+          name: "checkBox",
+          checked: false,
+          onChange: lang.hitch(this, function(chb){ 
+            if(chb === true){
+              this.evt = this.map.on('extent-change', lang.hitch(this, function(){
+                this.onExtentChanged()
+              }))
+            } else{
+                this.evt.remove()
+                this.onExtentChangedOff()
+            }
+          })
         }, "checkButtonContainer").startup()
       },
 
@@ -180,20 +174,19 @@ return declare([BaseWidget], {
       },
 
       resize: function(){
-        this.chart.width =  eval(this.methodWidth) * 0.9;
-        this.chart.update();
+        this.chart.width = eval(this.widthMethod) * 0.9
+        this.chart.update()
       },
 
       onExtentChanged: function(){
-        var extent = this.map.geographicExtent.toJson();
-        this.chart.dataset.query.bbox = extent.xmin + ',' + extent.xmax + ',' + extent.ymin + ',' + extent.ymax;
-        this.chart.update();
+        var extent = this.map.geographicExtent.toJson()
+        this.chart.dataset.query.bbox = extent.xmin + ',' + extent.xmax + ',' + extent.ymin + ',' + extent.ymax
+        this.chart.update()
       },
 
       onExtentChangedOff: function(){
-        this.chart.dataset.query.bbox = null;
-        this.chart.update();
+        this.chart.dataset.query.bbox = null
+        this.chart.update()
       }
-
     })
   })

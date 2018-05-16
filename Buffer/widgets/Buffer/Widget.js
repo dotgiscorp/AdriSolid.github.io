@@ -181,6 +181,7 @@ function(declare, BaseWidget, lang, idWebMapLayers, Select, domConstruct, TextBo
       new Button({
         onClick: lang.hitch(this, function(){
             this.selectionManager.clearSelection(this.layer)
+            dom.byId('featureCountNode').innerHTML = 'Selected Features: 0'
         })
       }, 'clearSelection').startup() 
 

@@ -57,6 +57,7 @@ function(declare, lang, domConstruct, domStyle, Deferred, dom,
       this._initLoadingShelter();
       this._initLayerChooser();
       this._initButtons();
+      console.log('E')
     },
 
     _setWidgetSize: function(){

@@ -91,20 +91,6 @@
       },
       {
         "position": {
-          "left": 105,
-          "top": 45,
-          "relativeTo": "map"
-        },
-        "placeholderIndex": 1,
-        "id": "_6",
-        "name": "Demo",
-        "version": "2.8",
-        "closeable": true,
-        "uri": "widgets/Demo/Widget",
-        "config": "configs/Demo/config__6.json"
-      },
-      {
-        "position": {
           "left": 155,
           "top": 45,
           "relativeTo": "map"

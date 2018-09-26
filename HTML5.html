@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ING Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet">
+
+
+</head>
+
+<body>
+    <script>
+        var latitud, longitud;
+
+function geolocalizar() {
+	navigator.geolocation.getCurrentPosition(mostrarLoc,mostrarError);   
+}
+
+function mostrarError(error){                
+	console.log(error);
+}
+
+function mostrarLoc(geo){                   
+	latitud=geo.coords.latitude;
+	longitud=geo.coords.longitude;
+
+	alert(latitud);
+	alert(longitud);
+}
+
+geolocalizar();
+    </script>
+    
+</body>
+
+</html>

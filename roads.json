@@ -58,35 +58,6 @@
             "line-color": "#1c1c1c"
         }
     },
-    {
-            "id": "waterway",
-            "type": "line",
-            "source": "carto",
-            "source-layer": "waterway",
-            "paint": {
-                "line-color": "#151515",
-                "line-width": {
-                    "stops": [
-                        [
-                            8,
-                            0.5
-                        ],
-                        [
-                            9,
-                            1
-                        ],
-                        [
-                            15,
-                            2
-                        ],
-                        [
-                            16,
-                            3
-                        ]
-                    ]
-                }
-            }
-        },
       {
             "id": "waterway",
             "type": "line",
@@ -116,6 +87,85 @@
                 }
             }
         },         
+               
+     {
+            "id": "waterway_label",
+            "type": "symbol",
+            "source": "carto",
+            "source-layer": "waterway",
+            "filter": [
+                "all",
+                [
+                    "has",
+                    "name"
+                ],
+                [
+                    "==",
+                    "class",
+                    "river"
+                ]
+            ],
+            "layout": {
+                "text-field": "{name_en}",
+                "text-font": [
+                    "Montserrat Regular Italic",
+                    "Open Sans Italic",
+                    "Noto Sans Regular",
+                    "HanWangHeiLight Regular",
+                    "NanumBarunGothic Regular"
+                ],
+                "symbol-placement": "line",
+                "symbol-spacing": 300,
+                "symbol-avoid-edges": false,
+                "text-size": {
+                    "stops": [
+                        [
+                            9,
+                            8
+                        ],
+                        [
+                            10,
+                            9
+                        ]
+                    ]
+                },
+                "text-padding": 2,
+                "text-pitch-alignment": "auto",
+                "text-rotation-alignment": "auto",
+                "text-offset": {
+                    "stops": [
+                        [
+                            6,
+                            [
+                                0,
+                                -0.2
+                            ]
+                        ],
+                        [
+                            11,
+                            [
+                                0,
+                                -0.4
+                            ]
+                        ],
+                        [
+                            12,
+                            [
+                                0,
+                                -0.6
+                            ]
+                        ]
+                    ]
+                },
+                "text-letter-spacing": 0,
+                "text-keep-upright": true
+            },
+            "paint": {
+                "text-color": "#444",
+                "text-halo-color": "#181818",
+                "text-halo-width": 1
+            }
+        },
     {
         "id": "road_minor_case",
         "type": "line",
